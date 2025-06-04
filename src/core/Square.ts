@@ -29,6 +29,9 @@ export class Square{
     }
     set viewer(val){
         this._viewer = val
+        if(val){
+            this.viewer?.show()
+        }
     }
 
 }

@@ -6,7 +6,11 @@
     "typescript": "^5.8.3",
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.1",
-    "webpack-dev-server": "^3.3.1"
+    "webpack-dev-server": "^3.3.1",
+    "@types/jquery": "^3.3.29"
+  },
+  "dependencies": {
+    "jquery": "^3.4.0"
   },
   "scripts": {
     "build": "webpack --mode=production",

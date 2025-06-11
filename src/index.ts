@@ -1,37 +1,40 @@
 import { SquareGroup } from "./core/SquareGroup";
+import { createTeris } from "./core/teris";
+
 import { SquarePageViewer } from "./core/Viewers/SquarePageViewer";
 import $ from 'jquery'
-const squareGroup = new SquareGroup([
-    {x:0,y:1},{x:0,y:-1},{x:1,y:0},{x:-1,y:0},{x:0,y:0},{x:-2,y:0}
-],{x:5,y:5},'red')
-squareGroup.squares.forEach((sq)=>{
+const teris = createTeris({
+    x:2,
+    y:2
+})
+teris.squares.forEach((sq)=>{
     sq.viewer = new SquarePageViewer(sq,$('#root'))
 })
 $("#left").on('click',()=>{
 
-    squareGroup.centerPoint = {
-        x:squareGroup.centerPoint.x-1,
-        y:squareGroup.centerPoint.y
+    teris.centerPoint = {
+        x:teris.centerPoint.x-1,
+        y:teris.centerPoint.y
     }
 })
 $("#right").on('click',()=>{
 
-    squareGroup.centerPoint = {
-        x:squareGroup.centerPoint.x+1,
-        y:squareGroup.centerPoint.y
+    teris.centerPoint = {
+        x:teris.centerPoint.x+1,
+        y:teris.centerPoint.y
     }
 })
 $("#up").on('click',()=>{
 
-    squareGroup.centerPoint = {
-        x:squareGroup.centerPoint.x,
-        y:squareGroup.centerPoint.y - 1
+    teris.centerPoint = {
+        x:teris.centerPoint.x,
+        y:teris.centerPoint.y - 1
     }
 })
 $("#down").on('click',()=>{
 
-    squareGroup.centerPoint = {
-        x:squareGroup.centerPoint.x,
-        y:squareGroup.centerPoint.y+1
+    teris.centerPoint = {
+        x:teris.centerPoint.x,
+        y:teris.centerPoint.y+1
     }
 })

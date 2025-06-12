@@ -14,6 +14,7 @@ const teris = createTeris({
 teris.squares.forEach((sq)=>{
     sq.viewer = new SquarePageViewer(sq,$('#root'))
 })
+
 $("#left").on('click',()=>{
     TerisRule.moveToEnd(teris,MoveDirection.left)
     // teris.centerPoint = {
@@ -42,7 +43,7 @@ $("#up").on('click',()=>{
 })
 $("#down").on('click',()=>{
 
-    if(TerisRule.canIMove(teris,{
+    if(TerisRule.canIMove(teris.shape,{
         x:teris.centerPoint.x,
         y:teris.centerPoint.y+1
     })){
@@ -52,4 +53,7 @@ $("#down").on('click',()=>{
         }
     }
    
+})
+$('#rotate').on('click',()=>{
+    TerisRule.rotate(teris)
 })

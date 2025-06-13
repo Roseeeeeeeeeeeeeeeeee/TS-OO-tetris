@@ -6,22 +6,51 @@
     <title>tetris</title>
     <style>
         #root{
+            box-sizing: border-box;
+            /* width: 450px;
+            height: 450px; */
+            display: flex;
+            justify-content: center;
+            margin: 100px auto;
+            position: relative;
+        }
+        #panel{
             width: 450px;
             height: 450px;
             background-color: black;
-            margin: 100px auto;
+            /* margin: 100px auto; */
+            position: relative;
+        }
+        #tip{
+            width: 200px;
+        }
+        #next{
+            width: 150px;
+            height: 150px;
+            
             position: relative;
         }
     </style>
 </head>
 <body>
-    <div id="root"></div>
+    <div id="root">
+        <div id="panel">
+
+        </div>
+        <div id="tip">
+            <div id="next">
+
+            </div>
+        </div>
+    </div>
     <div class="btns">
+        <button id="start">开始</button>
+        <button id="pause">暂停</button>
+        <button id="down">向下</button>
         <button id="left">向左</button>
         <button id="right">向右</button>
-        <button id="up">向上</button>
-        <button id="down">向下</button>
         <button id="rotate">旋转</button>
+        
     </div>
 </body>
 </html>

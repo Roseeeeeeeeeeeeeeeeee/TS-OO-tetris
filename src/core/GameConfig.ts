@@ -3,6 +3,10 @@ export default {
         width:15,
         height:15
     },
+    nextSize:{
+        width:5,
+        height:5
+    },
     /**
      * 游戏中方块的旋转方向，true为顺时针
      */

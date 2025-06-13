@@ -1,59 +1,25 @@
-import { SquareGroup } from "./core/SquareGroup";
-import { createTeris } from "./core/teris";
-import { TerisRule } from "./core/terisRule";
-import { MoveDirection } from "./core/types";
-
-
-import { SquarePageViewer } from "./core/Viewers/SquarePageViewer";
+import { Game } from "./core/game";
+import { GamePageViewer } from "./core/Viewers/GamePageViewer";
 import $ from 'jquery'
-const teris = createTeris({
-    x:2,
-    y:2
+const game = new Game(new GamePageViewer())
+$('#start').on('click',()=>{
+    game.start()
+})
+$('#pause').on('click',()=>{
+    game.pause()
+})
+$('#left').on('click',()=>{
+    game.controlLeft()
+})
+$('#right').on('click',()=>{
+    game.controlRight()
 })
 
-teris.squares.forEach((sq)=>{
-    sq.viewer = new SquarePageViewer(sq,$('#root'))
+$('#down').on('click',()=>{
+    game.controlDown()
 })
 
-$("#left").on('click',()=>{
-    TerisRule.moveToEnd(teris,MoveDirection.left)
-    // teris.centerPoint = {
-    //     x:teris.centerPoint.x-1,
-    //     y:teris.centerPoint.y
-    // }
-    
-})
-$("#right").on('click',()=>{
-    TerisRule.move(teris,{
-        x:teris.centerPoint.x+1,
-        y:teris.centerPoint.y
-    })
-    
-    // teris.centerPoint = {
-    //     x:teris.centerPoint.x+1,
-    //     y:teris.centerPoint.y
-    // }
-})
-$("#up").on('click',()=>{
-    TerisRule.move(teris,MoveDirection.up)
-    // teris.centerPoint = {
-    //     x:teris.centerPoint.x,
-    //     y:teris.centerPoint.y - 1
-    // }
-})
-$("#down").on('click',()=>{
-
-    if(TerisRule.canIMove(teris.shape,{
-        x:teris.centerPoint.x,
-        y:teris.centerPoint.y+1
-    })){
-        teris.centerPoint = {
-            x:teris.centerPoint.x,
-            y:teris.centerPoint.y+1
-        }
-    }
-   
-})
 $('#rotate').on('click',()=>{
-    TerisRule.rotate(teris)
+    game.controlRotate()
 })
+

@@ -94,7 +94,6 @@ class LineShape extends SquareGroup{
     'green',
     'yellow',
     'pink',
-    'white',
     'lightblue',
     'orange'
   ]

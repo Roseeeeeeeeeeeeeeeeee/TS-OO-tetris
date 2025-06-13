@@ -1,6 +1,7 @@
 import { SquareGroup } from "./SquareGroup";
 import { MoveDirection, Point, Shape } from "./types";
 import GameConfig from "./GameConfig";
+import { Square } from "./Square";
 function isPoint(obj: any): obj is Point {
   if (obj.x !== undefined) {
     return true;
@@ -15,7 +16,11 @@ export class TerisRule {
    * @param targetCenterPoint 移动后的中心点坐标
    * @returns 为true就可以移动
    */
-  static canIMove(shape:Shape, targetCenterPoint: Point): boolean {
+  static canIMove(
+    shape: Shape,
+    targetCenterPoint: Point,
+    existSquares: Square[]
+  ): boolean {
     //得到移动后各个小块的位置
     const targetShape: Point[] = shape.map((it) => {
       return {
@@ -24,7 +29,7 @@ export class TerisRule {
       };
     });
     //检验各个小块的位置是否合法，只要有一个不合法就不可以完成移动
-    const res = targetShape.some((p) => {
+    let res = targetShape.some((p) => {
       if (
         p.x < 0 ||
         p.x > GameConfig.panelSize.width - 1 ||
@@ -38,17 +43,22 @@ export class TerisRule {
     if (res) {
       return false;
     }
+    res = targetShape.some((it) => existSquares.some((s) => s.point.x === it.x && s.point.y === it.y));
+    if(res){
+      return false
+    }
     return true;
   }
 
-  static move(teris: SquareGroup, direction: MoveDirection): boolean;
-  static move(teris: SquareGroup, targetCenterPoint: Point): boolean;
+  static move(teris: SquareGroup, direction: MoveDirection,existSquares:Square[]): boolean;
+  static move(teris: SquareGroup, targetCenterPoint: Point,existSquares:Square[]): boolean;
   static move(
     teris: SquareGroup,
-    targetCenterPointOrDirection: Point | MoveDirection
+    targetCenterPointOrDirection: Point | MoveDirection,
+    existSquares:Square[]
   ): boolean {
     if (isPoint(targetCenterPointOrDirection)) {
-      if (this.canIMove(teris.shape, targetCenterPointOrDirection)) {
+      if (this.canIMove(teris.shape, targetCenterPointOrDirection,existSquares)) {
         teris.centerPoint = targetCenterPointOrDirection;
         return true;
       } else {
@@ -78,19 +88,19 @@ export class TerisRule {
           y: teris.centerPoint.y - 1,
         };
       }
-      return this.move(teris, tagetPoint);
+      return this.move(teris, tagetPoint,existSquares);
     }
   }
-  static moveToEnd(teris: SquareGroup, direction: MoveDirection) {
-    while (this.move(teris, direction)) {}
+  static moveToEnd(teris: SquareGroup, direction: MoveDirection,existSquares:Square[]) {
+    while (this.move(teris, direction,existSquares)) {}
   }
-  static rotate(teris:SquareGroup):boolean{
-    const newShape = teris.afterRotateShape()
-    if(this.canIMove(newShape,teris.centerPoint)){
-        teris.rotate()
-        return true
-    }else{
-        return false
+  static rotate(teris: SquareGroup,existSquares:Square[]): boolean {
+    const newShape = teris.afterRotateShape();
+    if (this.canIMove(newShape, teris.centerPoint,existSquares)) {
+      teris.rotate();
+      return true;
+    } else {
+      return false;
     }
   }
 }

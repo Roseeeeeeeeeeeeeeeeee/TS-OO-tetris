@@ -1,4 +1,5 @@
 import GameConfig from "./GameConfig";
+import { Square } from "./Square";
 import { SquareGroup } from "./SquareGroup";
 import { createTeris } from "./teris";
 import { TerisRule } from "./terisRule";
@@ -20,7 +21,7 @@ export class Game {
   private _nextTeris: SquareGroup = createTeris({ x: 0, y: 0 });
   private _timer?: any;
   private _duration: number = 1000;
-
+  private _existSquares:Square[] = []
   constructor(private _viewer: GameViewer) {
     this.setSuitableCenterPoint(GameConfig.nextSize.width, this._nextTeris);
     this._viewer.showNext(this._nextTeris);
@@ -57,22 +58,24 @@ export class Game {
   }
   controlLeft(){
     if(this._curTeris && this._gameState === GameStates.playing){
-        TerisRule.move(this._curTeris,MoveDirection.left)
+        TerisRule.move(this._curTeris,MoveDirection.left,this._existSquares)
     }
   }
   controlRight(){
     if(this._curTeris && this._gameState === GameStates.playing){
-        TerisRule.move(this._curTeris,MoveDirection.right)
+        TerisRule.move(this._curTeris,MoveDirection.right,this._existSquares)
     }
   }
   controlDown(){
     if(this._curTeris && this._gameState === GameStates.playing){
-        TerisRule.moveToEnd(this._curTeris,MoveDirection.down)
+        TerisRule.moveToEnd(this._curTeris,MoveDirection.down,this._existSquares)
+        //触底处理
+        this.hitbottom()
     }
   }
   controlRotate(){
     if(this._curTeris && this._gameState === GameStates.playing){
-        TerisRule.rotate(this._curTeris)
+        TerisRule.rotate(this._curTeris,this._existSquares)
     }
   }
   /**
@@ -83,7 +86,7 @@ export class Game {
   setSuitableCenterPoint(width: number, teris: SquareGroup): void {
     let x = Math.ceil(width / 2 ) - 1;
     let y = 0;
-    while (!TerisRule.canIMove(teris.shape, { x, y })) {
+    while (!TerisRule.canIMove(teris.shape, { x, y },this._existSquares)) {
       y++;
     }
     teris.centerPoint = { x, y };
@@ -103,9 +106,19 @@ export class Game {
     }
     this._timer = setInterval(() => {
       if (this._curTeris) {
-        TerisRule.move(this._curTeris, MoveDirection.down);
+        if(!TerisRule.move(this._curTeris, MoveDirection.down,this._existSquares)){
+            //触底处理
+            this.hitbottom()
+        }
       }
     }, this._duration);
+  }
+  hitbottom(){
+    //1.存储游戏面板中已存在方块的位置，便于移动判断
+    this._existSquares.push(...this._curTeris!.squares)
+    //2.更新方块
+    this.switchTeris()
+
   }
 
 }

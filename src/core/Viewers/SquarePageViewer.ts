@@ -23,7 +23,12 @@ export class SquarePageViewer implements IViewer{
                 width:PageConfig.squareSize.with,
                 height:PageConfig.squareSize.height,
                 boxSizing:'boeder-box',
-                border:'1px solid #ccc'
+                // border:'1px solid #ccc',
+                // borderLeft:'0.5px solid #ccc',
+                // borderRight:'0.5px solid #ccc',
+                // boxShadow:'1px 1px 0px #ccc, -1px -1px 0px #ccc'
+                outline:'1px solid #ccc'
+
             }).appendTo(this.container)
             
         }

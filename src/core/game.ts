@@ -102,12 +102,8 @@ export class Game {
       return;
     }
     this._timer = setInterval(() => {
-        console.log('drop');
-        
       if (this._curTeris) {
         TerisRule.move(this._curTeris, MoveDirection.down);
-      } else {
-        this.switchTeris();
       }
     }, this._duration);
   }

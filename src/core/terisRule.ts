@@ -43,22 +43,34 @@ export class TerisRule {
     if (res) {
       return false;
     }
-    res = targetShape.some((it) => existSquares.some((s) => s.point.x === it.x && s.point.y === it.y));
-    if(res){
-      return false
+    res = targetShape.some((it) =>
+      existSquares.some((s) => s.point.x === it.x && s.point.y === it.y)
+    );
+    if (res) {
+      return false;
     }
     return true;
   }
 
-  static move(teris: SquareGroup, direction: MoveDirection,existSquares:Square[]): boolean;
-  static move(teris: SquareGroup, targetCenterPoint: Point,existSquares:Square[]): boolean;
+  static move(
+    teris: SquareGroup,
+    direction: MoveDirection,
+    existSquares: Square[]
+  ): boolean;
+  static move(
+    teris: SquareGroup,
+    targetCenterPoint: Point,
+    existSquares: Square[]
+  ): boolean;
   static move(
     teris: SquareGroup,
     targetCenterPointOrDirection: Point | MoveDirection,
-    existSquares:Square[]
+    existSquares: Square[]
   ): boolean {
     if (isPoint(targetCenterPointOrDirection)) {
-      if (this.canIMove(teris.shape, targetCenterPointOrDirection,existSquares)) {
+      if (
+        this.canIMove(teris.shape, targetCenterPointOrDirection, existSquares)
+      ) {
         teris.centerPoint = targetCenterPointOrDirection;
         return true;
       } else {
@@ -88,19 +100,65 @@ export class TerisRule {
           y: teris.centerPoint.y - 1,
         };
       }
-      return this.move(teris, tagetPoint,existSquares);
+      return this.move(teris, tagetPoint, existSquares);
     }
   }
-  static moveToEnd(teris: SquareGroup, direction: MoveDirection,existSquares:Square[]) {
-    while (this.move(teris, direction,existSquares)) {}
+  static moveToEnd(
+    teris: SquareGroup,
+    direction: MoveDirection,
+    existSquares: Square[]
+  ) {
+    while (this.move(teris, direction, existSquares)) {}
   }
-  static rotate(teris: SquareGroup,existSquares:Square[]): boolean {
+  static rotate(teris: SquareGroup, existSquares: Square[]): boolean {
     const newShape = teris.afterRotateShape();
-    if (this.canIMove(newShape, teris.centerPoint,existSquares)) {
+    if (this.canIMove(newShape, teris.centerPoint, existSquares)) {
       teris.rotate();
       return true;
     } else {
       return false;
     }
+  }
+  /**
+   * 消去应该删除的方块
+   * @param existSquares
+   */
+  static deleteSquares(existSquares: Square[]): number {
+    let cnt = 0;
+    //得到所有存在界面上的方块的纵坐标
+
+    const ys = existSquares.map((sq) => sq.point.y);
+    const maxY = Math.max(...ys);
+    const minY = Math.min(...ys);
+    for (let y = minY; y <= maxY; y++) {
+      if (this.deleteLine(y, existSquares)) {
+        cnt++;
+        existSquares.forEach((es) => {
+          if (es.point.y < y) {
+            es.point = {
+              x: es.point.x,
+              y: es.point.y + 1,
+            };
+          }
+        });
+      }
+    }
+    return cnt;
+  }
+  /**
+   * 消去一行的方块
+   */
+  private static deleteLine(y: number, existSquares: Square[]): boolean {
+    const lineSquares = existSquares.filter((es) => es.point.y === y);
+    if (lineSquares.length === GameConfig.panelSize.width) {
+      //可以消除此行
+      lineSquares.forEach((ls) => {
+        ls.viewer?.remove();
+        const index = existSquares.indexOf(ls);
+        existSquares.splice(index, 1);
+      });
+      return true;
+    }
+    return false;
   }
 }

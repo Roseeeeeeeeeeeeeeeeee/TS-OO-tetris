@@ -116,7 +116,9 @@ export class Game {
   hitbottom(){
     //1.存储游戏面板中已存在方块的位置，便于移动判断
     this._existSquares.push(...this._curTeris!.squares)
-    //2.更新方块
+    //2.消除该消去的行
+    const num =  TerisRule.deleteSquares(this._existSquares)
+    //3.更新方块
     this.switchTeris()
 
   }

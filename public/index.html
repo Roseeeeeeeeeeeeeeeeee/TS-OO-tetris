@@ -13,47 +13,91 @@
             /* width: 450px;
             height: 450px; */
             display: flex;
+            
             justify-content: center;
             margin: 100px auto;
             position: relative;
         }
         #panel{
-            width: 450px;
-            height: 450px;
+            /* width: 450px;
+            height: 450px; */
+            border-radius: 5px;
             background-color: black;
             /* margin: 100px auto; */
             position: relative;
         }
         #tip{
-            width: 200px;
+            /* width: 200px; */
+            margin-left: 20px;
+            text-align: center;
         }
         #next{
-            width: 150px;
-            height: 150px;
+            /* width: 150px;
+            height: 150px; */
             
             position: relative;
         }
+        #score{
+            font-size: 7em;
+            color:rgba(11, 222, 33,.5);
+            font-weight: bold;
+            text-align: center;
+        }
+        .shadow{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 255, 0,.2);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+        .tip{
+            padding: 10px 20px;
+            background-color: rgba(0, 255, 0,.5);
+            border-radius: 10px;
+            color: #fff;
+        }
+
     </style>
 </head>
 <body>
     <div id="root">
         <div id="panel">
-
+            <div class="shadow">
+                <div class="tip">
+                    
+                </div>
+            </div>
         </div>
         <div id="tip">
             <div id="next">
 
             </div>
+            <div id="score">
+
+            </div>
+            <div class="desc">
+                <p>游戏说明：</p>
+                <p>
+                    ↑：旋转
+                </p>
+                <p>
+                    ↓：向下
+                </p>
+                <p>
+                    ←：左
+                </p>
+                <p>
+                    →：右
+                </p>
+                <p>
+                    空格：暂停/恢复/开始
+                </p>
+            </div>
         </div>
     </div>
-    <div class="btns">
-        <button id="start">开始</button>
-        <button id="pause">暂停</button>
-        <button id="down">向下</button>
-        <button id="left">向左</button>
-        <button id="right">向右</button>
-        <button id="rotate">旋转</button>
-        
-    </div>
+    
 </body>
 </html>

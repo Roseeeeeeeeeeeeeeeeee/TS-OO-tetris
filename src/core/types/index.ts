@@ -1,3 +1,4 @@
+import { Game } from "../game"
 import { SquareGroup } from "../SquareGroup"
 
 export interface Point{
@@ -42,5 +43,13 @@ export interface GameViewer{
      * 
      * @param teris 即将要放入游戏面板的方块
      */
-    nextToCur(teris:SquareGroup):void
+    nextToCur(teris:SquareGroup):void,
+    /**
+     * 初始化游戏界面
+     */
+    init(game:Game):void,
+    showScore(game:Game):void
+    onStart():void
+    onPause():void
+    onOver():void
 }

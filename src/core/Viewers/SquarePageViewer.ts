@@ -20,7 +20,7 @@ export class SquarePageViewer implements IViewer{
         if(!this.dom){
             this.dom = $('<div>').css({
                 position:'absolute',
-                width:PageConfig.squareSize.with,
+                width:PageConfig.squareSize.width,
                 height:PageConfig.squareSize.height,
                 boxSizing:'boeder-box',
                 // border:'1px solid #ccc',
@@ -33,7 +33,7 @@ export class SquarePageViewer implements IViewer{
             
         }
         this.dom.css({
-            left : this.square.point.x * PageConfig.squareSize.with,
+            left : this.square.point.x * PageConfig.squareSize.width,
             top  : this.square.point.y * PageConfig.squareSize.height,
             backgroundColor : this.square.color
         })

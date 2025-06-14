@@ -2,7 +2,7 @@
 
 export default {
    squareSize:{
-    with:30,
+    width:30,
     height:30
    }
 }
